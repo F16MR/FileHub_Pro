@@ -1,0 +1,13 @@
+{
+  "name": "fileshare-pro",
+  "version": "1.0.0",
+  "description": "Secure file sharing platform with chat",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r index.php assets/ dist/",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "netlify-cli": "^16.0.0"
+  }
+}

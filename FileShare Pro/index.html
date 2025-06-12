@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileShare Pro - GitHub Style File Sharing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+</head>
+<body>
+    <div class="github-container">
+        <header class="github-header">
+            <nav>
+                <div class="github-logo">
+                    <i class="fab fa-github"></i>
+                    <span>FileShare Pro</span>
+                </div>
+                <div class="github-actions">
+                    <button class="btn github-btn" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="github-main">
+            <div class="github-sidebar">
+                <div class="github-sidebar-item active">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </div>
+                <div class="github-sidebar-item">
+                    <i class="fas fa-upload"></i>
+                    <span>رفع ملف</span>
+                </div>
+                <div class="github-sidebar-item">
+                    <i class="fas fa-download"></i>
+                    <span>تحميل ملف</span>
+                </div>
+            </div>
+
+            <div class="github-content">
+                <div class="github-welcome">
+                    <h1>مرحباً بكم في FileShare Pro</h1>
+                    <p class="github-description">منصة مشاركة الملفات السهلة والآمنة، مستوحاة من تصميم GitHub</p>
+                </div>
+
+                <div class="github-upload-section">
+                    <div class="github-card">
+                        <h2>رفع ملف جديد</h2>
+                        <form id="uploadForm" class="github-form">
+                            <div class="github-file-input">
+                                <input type="file" id="fileInput" accept="*/*">
+                                <label for="fileInput" class="github-btn">
+                                    <i class="fas fa-file-upload"></i>
+                                    اختر ملف
+                                </label>
+                            </div>
+                            <button type="submit" class="github-btn primary">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                رفع الملف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="github-download-section">
+                    <div class="github-card">
+                        <h2>تحميل ملف</h2>
+                        <div class="github-download-input">
+                            <input type="text" id="downloadUrl" placeholder="أدخل رابط الملف هنا">
+                            <button class="github-btn secondary" onclick="downloadFile()">
+                                <i class="fas fa-download"></i>
+                                تحميل
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="github-recent-files">
+                    <div class="github-card">
+                        <h2>الملفات الأخيرة</h2>
+                        <div id="filesList" class="github-files-list">
+                            <!-- Files will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="github-footer">
+            <div class="github-footer-content">
+                <div class="github-footer-section">
+                    <h3>عن FileShare Pro</h3>
+                    <p>منصة مشاركة الملفات السهلة والآمنة، مستوحاة من تصميم GitHub</p>
+                </div>
+                <div class="github-footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#">كيفية الاستخدام</a></li>
+                        <li><a href="#">الشروط والأحكام</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="github-footer-bottom">
+                <p>© 2025 FileShare Pro. جميع الحقوق محفوظة.</p>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

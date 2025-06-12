@@ -1,0 +1,45 @@
+<?php
+$title = translate('login');
+$subtitle = translate('login_subtitle');
+$content = <<<'HTML'
+<form action="login.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+    
+    <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+            <?php 
+            if ($_GET['error'] === 'security') {
+                echo translate('error_security');
+            } else {
+                echo translate('error_general');
+            }
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="form-group">
+        <label for="email"><?php echo translate('email'); ?></label>
+        <input type="email" class="form-control" id="email" name="email" required
+               placeholder="<?php echo translate('email_placeholder'); ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="password"><?php echo translate('password'); ?></label>
+        <input type="password" class="form-control" id="password" name="password" required
+               placeholder="<?php echo translate('password_placeholder'); ?>">
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt"></i> <?php echo translate('login'); ?>
+    </button>
+
+    <div class="text-center mt-3">
+        <a href="register.php"><?php echo translate('no_account'); ?></a>
+    </div>
+</form>
+HTML;
+$footerText = translate('footer_text');
+
+// Include the main template
+require 'templates/auth.html';
+?>

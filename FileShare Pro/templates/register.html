@@ -1,0 +1,59 @@
+<?php
+$title = translate('register');
+$subtitle = translate('register_subtitle');
+$content = <<<'HTML'
+<form action="register.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+    
+    <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+            <?php 
+            if ($_GET['error'] === 'security') {
+                echo translate('error_security');
+            } else if ($_GET['error'] === 'email_exists') {
+                echo translate('error_email_exists');
+            } else {
+                echo translate('error_general');
+            }
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="form-group">
+        <label for="username"><?php echo translate('username'); ?></label>
+        <input type="text" class="form-control" id="username" name="username" required
+               placeholder="<?php echo translate('username_placeholder'); ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="email"><?php echo translate('email'); ?></label>
+        <input type="email" class="form-control" id="email" name="email" required
+               placeholder="<?php echo translate('email_placeholder'); ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="password"><?php echo translate('password'); ?></label>
+        <input type="password" class="form-control" id="password" name="password" required
+               placeholder="<?php echo translate('password_placeholder'); ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="confirm_password"><?php echo translate('confirm_password'); ?></label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required
+               placeholder="<?php echo translate('confirm_password_placeholder'); ?>">
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> <?php echo translate('register'); ?>
+    </button>
+
+    <div class="text-center mt-3">
+        <a href="login.php"><?php echo translate('have_account'); ?></a>
+    </div>
+</form>
+HTML;
+$footerText = translate('footer_text');
+
+// Include the main template
+require 'templates/auth.html';
+?>
