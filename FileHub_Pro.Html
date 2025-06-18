@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FileHub</title>
+  <style>
+    :root {
+      --primary: #0077cc;
+      --secondary: #00c2b2;
+      --bg-light: #f5f8fa;
+      --bg-dark: #121212;
+      --text-light: #1f2937;
+      --text-dark: #f0f0f0;
+      --box-light: #ffffff;
+      --box-dark: #1e1e1e;
+      --radius: 12px;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .welcome {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+      transition: var(--transition);
+    }
+
+    .welcome h1 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .welcome button {
+      padding: 12px 24px;
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 1rem;
+      background: #e2e8f0;
+    }
+
+    body.dark .toolbar {
+      background: #1a1a1a;
+    }
+
+    .toolbar button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius);
+      background: var(--secondary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .upload-section {
+      background: var(--box-light);
+      border: 2px dashed var(--primary);
+      padding: 40px;
+      border-radius: var(--radius);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    body.dark .upload-section {
+      background: var(--box-dark);
+    }
+
+    .upload-section input[type="file"] {
+      display: none;
+    }
+
+    .upload-section label {
+      cursor: pointer;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .download-box {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .download-link {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .expired {
+      color: red;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #718096;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome" id="welcome">
+    <h1 id="welcomeTitle">مرحبًا بك في FileHub 🎉</h1>
+    <button onclick="startSite()" id="startBtn">ابدأ الآن</button>
+  </div>
+
+  <header>📁 FileHub</header>
+
+  <div class="toolbar">
+    <button onclick="toggleTheme()" id="themeBtn">🌙 الوضع الداكن</button>
+    <button onclick="toggleLang()" id="langBtn">🇸🇦 العربية</button>
+  </div>
+
+  <div class="container">
+    <div class="upload-section">
+      <label for="fileInput" id="uploadLabel">📤 اسحب الملف أو انقر لاختياره</label>
+      <input type="file" id="fileInput" accept="*/*">
+      <div class="file-info" id="fileInfo"></div>
+    </div>
+
+    <div class="download-box" id="downloadBox"></div>
+  </div>
+
+  <footer id="footerText">© 2025 FileHub - جميع الحقوق محفوظة | صنع من طرف F16MR</footer>
+
+  <script>
+    const welcome = document.getElementById('welcome');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const downloadBox = document.getElementById('downloadBox');
+    const uploadLabel = document.getElementById('uploadLabel');
+    const themeBtn = document.getElementById('themeBtn');
+    const langBtn = document.getElementById('langBtn');
+    const footerText = document.getElementById('footerText');
+    const welcomeTitle = document.getElementById('welcomeTitle');
+    const startBtn = document.getElementById('startBtn');
+
+    let isDark = localStorage.getItem('theme') === 'dark';
+    let isArabic = localStorage.getItem('lang') !== 'en';
+
+    document.body.classList.toggle('dark', isDark);
+    themeBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌙 الوضع الداكن';
+
+    function updateLangUI() {
+      document.documentElement.lang = isArabic ? 'ar' : 'en';
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+      uploadLabel.textContent = isArabic ? '📤 اسحب الملف أو انقر لاختياره' : '📤 Drag & drop or click to select a file';
+      langBtn.textContent = isArabic ? '🇸🇦 العربية' : '🇬🇧 English';
+      footerText.textContent = isArabic ? '© 2025 FileHub - جميع الحقوق محفوظة | صنع من طرف F16MR' : '© 2025 FileHub - All rights reserved | Made by F16MR';
+      welcomeTitle.textContent = isArabic ? 'مرحبًا بك في FileHub 🎉' : 'Welcome to FileHub 🎉';
+      startBtn.textContent = isArabic ? 'ابدأ الآن' : 'Get Started';
+    }
+
+    updateLangUI();
+
+    function startSite() {
+      welcome.style.transform = 'translateY(-100vh)';
+      setTimeout(() => welcome.remove(), 600);
+    }
+
+    function toggleTheme() {
+      isDark = !isDark;
+      document.body.classList.toggle('dark', isDark);
+      themeBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌙 الوضع الداكن';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    function toggleLang() {
+      isArabic = !isArabic;
+      localStorage.setItem('lang', isArabic ? 'ar' : 'en');
+      updateLangUI();
+    }
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const maxSizeMB = 20;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(isArabic ? `🚫 الملف كبير جدًا. الحد الأقصى ${maxSizeMB} ميغابايت` : `🚫 File too large. Max is ${maxSizeMB} MB`);
+        return;
+      }
+
+      fileInfo.textContent = `${isArabic ? '📁 اسم الملف:' : '📁 File Name:'} ${file.name}`;
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const blob = new Blob([reader.result], { type: file.type });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = file.name;
+        link.className = 'download-link';
+        link.textContent = isArabic ? '⬇️ تحميل الملف' : '⬇️ Download File';
+
+        const copyInput = document.createElement('input');
+        copyInput.type = 'text';
+        copyInput.value = url;
+        copyInput.readOnly = true;
+        copyInput.style.width = '100%';
+        copyInput.style.marginTop = '10px';
+
+        downloadBox.innerHTML = '';
+        downloadBox.appendChild(copyInput);
+        downloadBox.appendChild(link);
+
+        link.addEventListener('click', () => {
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            downloadBox.innerHTML = `<div class="expired">${isArabic ? '⛔ انتهت صلاحية الرابط بعد التحميل' : '⛔ Link expired after download'}</div>`;
+          }, 700);
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+</body>
+</html>
